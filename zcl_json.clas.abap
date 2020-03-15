@@ -699,6 +699,12 @@ method encode_field.
   relative_name = type->get_relative_name( ).
   if relative_name = 'TIMESTAMP'.
     formatted_value = timestamp_sap_to_iso( value ).
+  elseif relative_name = 'ABAP_BOOL'.
+    if value = abap_true.
+      formatted_value = 'true'.
+    else.
+      formatted_value = 'false'.
+    endif.
   else.
     case type->type_kind.
         "// Date fields (become ISO-8601)
