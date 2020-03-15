@@ -5,10 +5,10 @@ class ZCL_JSON definition
 
 public section.
 
-  data INCLUDE_EMPTY_VALUES type FLAG value 'X' ##NO_TEXT.
+  data INCLUDE_EMPTY_VALUES type FLAG value 'X'. "#EC NOTEXT
   data PRETTY_PRINT type FLAG .
-  data LOWERCASE_NAMES type FLAG value 'X' ##NO_TEXT.
-  data USE_CONVERSION_EXITS type FLAG value 'X' ##NO_TEXT.
+  data LOWERCASE_NAMES type FLAG value 'X'. "#EC NOTEXT
+  data USE_CONVERSION_EXITS type FLAG value 'X'. "#EC NOTEXT
 
   class-methods CLASS_CONSTRUCTOR .
   methods ENCODE
@@ -577,8 +577,9 @@ endmethod.
 
 method decode_string.
   data: characters      type table of c,
-        unicode_hexc(4) type c,
-        unicode_hex(4)  type x.
+        unicode_hexc    type c length 4,
+        unicode_hex     type x length 4,
+        temp_hex        type x.
 
   field-symbols: <unicode_char> type c.
 
@@ -602,7 +603,10 @@ method decode_string.
             add 1 to position.
             unicode_hexc = json+position(4).
             translate unicode_hexc to upper case.
-            unicode_hex = unicode_hexc.
+            unicode_hex      = unicode_hexc.
+            temp_hex         = unicode_hex+0(1). " little/big endian conversion
+            unicode_hex+0(1) = unicode_hex+1(1).
+            unicode_hex+1(1) = temp_hex.
             assign unicode_hex to <unicode_char> casting.
             append <unicode_char> to characters.
             add 3 to position.
