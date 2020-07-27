@@ -205,10 +205,9 @@ method call_conversion_exit.
 
 method CLASS_CONSTRUCTOR.
   "// Initialize static attributes
-  field-symbols <x> type x.
+  cr = cl_abap_char_utilities=>cr_lf+0(1).
+  lf = cl_abap_char_utilities=>cr_lf+1(1).
 
-  assign cr to <x> casting. <x> = 13.
-  assign lf to <x> casting. <x> = 10.
 endmethod.
 
 
@@ -883,13 +882,7 @@ endmethod.
 
 
 method ESCAPE_STRING.
-  data: cr type c,
-        lf type c.
-
   field-symbols <x> type x.
-
-  assign cr to <x> casting. <x> = 13.
-  assign lf to <x> casting. <x> = 10.
 
   result = input.
   replace regex '\s+$' in result with ''.
